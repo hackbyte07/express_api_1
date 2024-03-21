@@ -31,11 +31,11 @@ const signup = router.post(signupRoute, async (req, res) => {
       return res.status(400).send("User email exists!")
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 2);
+    const hashedPassword = await bcrypt.hash(password, 2);
 
     const newUser = new User({
       id: UUID.generate().toString(),
-      name,
+      name, 
       email,
       password: hashedPassword,
       token: "",

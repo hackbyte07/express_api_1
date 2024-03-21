@@ -21,10 +21,14 @@ const login = router.post(loginRoute, async (req, res) => {
 
     const existingUser = await User.findOne({ email: email }).exec();
 
-    const verifyPassword = bcrypt.compareSync(
-      password,
-      existingUser?.password as string
-    );
+    let verifyPassword;
+    if (existingUser) {
+      verifyPassword = await bcrypt.compare(
+        password,
+        existingUser?.password as string
+      );
+    }
+
     if (!existingUser || !verifyPassword) {
       return res.status(400).send("wrong credentils");
     }
