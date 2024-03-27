@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { NoteSchema } from "./noteSchema";
+
 
 const UserSchema = new mongoose.Schema({
   id: {
@@ -19,7 +21,7 @@ const UserSchema = new mongoose.Schema({
   token: {
     type: String,
   },
+  notes: [NoteSchema],
 });
 
-
-export const User = mongoose.model("User", UserSchema)
+export const User = mongoose.model("User", UserSchema);

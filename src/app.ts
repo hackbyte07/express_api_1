@@ -1,8 +1,9 @@
 import express from "express";
-import {configDotenv} from 'dotenv'
+import { configDotenv } from "dotenv";
 import signup from "./routes/auth_routes/signup";
 import mongoose from "mongoose";
 import login from "./routes/auth_routes/login";
+import notesRouter from "./routes/notes_routes/notesRoute";
 
 const app = express();
 configDotenv();
@@ -13,9 +14,9 @@ app.get("/", (req, res) => {
   res.status(200).send("api is working");
 });
 
-app.use(login)
+app.use(login);
 app.use(signup);
-
+app.use(notesRouter);
 
 /****************/
 (async () => {
@@ -26,6 +27,6 @@ app.use(signup);
     });
   } catch (error) {
     console.log(error);
-    process.exit(1)
+    process.exit(1);
   }
 })();

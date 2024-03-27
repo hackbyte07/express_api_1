@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { loginRoute } from "../routes";
 
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -7,7 +6,7 @@ import { User } from "../../schema/userSchema";
 
 const router = Router();
 
-const login = router.post(loginRoute, async (req, res) => {
+const login = router.post("/login", async (req, res) => {
   try {
     const { email, password }: { email: string; password: string } = req.body;
     if (email.length < 1) {
@@ -36,7 +35,6 @@ const login = router.post(loginRoute, async (req, res) => {
     const token = jwt.sign(
       {
         email: email,
-        password: password,
       },
       `${process.env.jwtSecretKey}`
     );
@@ -49,6 +47,7 @@ const login = router.post(loginRoute, async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    return res.status(400).send(error)
   }
 });
 

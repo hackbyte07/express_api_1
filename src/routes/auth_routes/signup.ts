@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { signupRoute } from "../routes";
+
 import bcrypt from "bcrypt";
 
 import { BSON, UUID } from "mongodb";
 import { User } from "../../schema/userSchema";
+import { Note } from "../../schema/noteSchema";
 
 const router = Router();
 
-const signup = router.post(signupRoute, async (req, res) => {
+const signup = router.post('/signup', async (req, res) => {
   try {
     const {
       name,
@@ -49,6 +50,7 @@ const signup = router.post(signupRoute, async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(400).send(error)
   }
 });
 
