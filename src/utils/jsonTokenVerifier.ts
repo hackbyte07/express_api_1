@@ -1,7 +1,8 @@
+import { NextFunction } from "express";
 import { User } from "../schema/userSchema";
 import jwt from "jsonwebtoken";
 
-const getAndVerifyUser = async (token: string) => {
+const getAndVerifyUser = async (token: string, next: NextFunction) => {
   try {
     const decodeData = jwt.verify(
       token,
@@ -19,8 +20,7 @@ const getAndVerifyUser = async (token: string) => {
     }
   } catch (error) {
     console.error(error);
-  } finally {
-    return undefined;
+    next(error)
   }
 };
 
