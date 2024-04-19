@@ -2,13 +2,13 @@ import { Router } from "express";
 
 import bcrypt from "bcrypt";
 
-import { BSON, UUID } from "mongodb";
-import { User } from "../../schema/userSchema";
-import { Note } from "../../schema/noteSchema";
+import { UUID } from "mongodb";
+import { User } from "../../models/userModel";
+import sendMail from "../../utils/mailSender";
 
 const router = Router();
 
-const signup = router.post('/signup', async (req, res) => {
+const signup = router.post("/signup", async (req, res) => {
   try {
     const {
       name,
@@ -27,16 +27,16 @@ const signup = router.post('/signup', async (req, res) => {
         .send("password must be greater than or equal to 6 digits");
     }
 
-    const existingUser = await User.findOne({email: email}).exec() 
-    if(existingUser) {
-      return res.status(400).send("User email exists!")
+    const existingUser = await User.findOne({ email: email }).exec();
+    if (existingUser) {
+      return res.status(400).send("User email exists!");
     }
 
     const hashedPassword = await bcrypt.hash(password, 2);
 
     const newUser = new User({
       id: UUID.generate().toString(),
-      name, 
+      name,
       email,
       password: hashedPassword,
       token: "",
@@ -44,13 +44,15 @@ const signup = router.post('/signup', async (req, res) => {
 
     await newUser.save();
 
+    sendMail(email);
+
     return res.status(200).json({
       success: true,
       message: "User created successfully",
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).send(error)
+    return res.status(400).send(error);
   }
 });
 
