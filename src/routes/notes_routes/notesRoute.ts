@@ -67,9 +67,10 @@ notesRouter.delete("/notes/:id", async (req, res, next) => {
 notesRouter.get("/notes", async (req, res, next) => {
   try {
     const user = res.locals.user as InstanceType<typeof User>;
+    const data = user.notes;
     return res.status(200).json({
       success: true,
-      data: user.notes,
+      data,
     });
   } catch (error) {
     console.log(error);

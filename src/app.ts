@@ -4,8 +4,10 @@ import mongoose from "mongoose";
 import login from "./routes/auth_routes/login";
 import notesRouter from "./routes/notes_routes/notesRoute";
 import { configDotenv } from "dotenv";
+import { createServer } from "http";
 
 const app = express();
+const server = createServer(app);
 configDotenv();
 const port = process.env.PORT;
 //middleware
@@ -24,8 +26,8 @@ app.use(notesRouter);
 (async () => {
   try {
     await mongoose.connect(`${process.env.mongoUrl}`);
-    app.listen(port, () => {
-      console.log(`server is running at https://localhost:${port}`);
+    server.listen(port, () => {
+      console.log(`server is running at http://localhost:${port}`);
     });
   } catch (error) {
     console.error(error);
