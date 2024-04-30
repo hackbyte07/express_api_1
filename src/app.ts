@@ -5,6 +5,8 @@ import login from "./routes/auth_routes/login";
 import notesRouter from "./routes/notes_routes/notesRoute";
 import { configDotenv } from "dotenv";
 import { createServer } from "http";
+import { Stream } from "stream";
+import { ReadableStream } from "node:stream/web";
 
 const app = express();
 const server = createServer(app);
@@ -34,3 +36,4 @@ app.use(notesRouter);
     process.exit(1);
   }
 })();
+

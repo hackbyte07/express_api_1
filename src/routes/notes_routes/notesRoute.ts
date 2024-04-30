@@ -2,7 +2,6 @@ import { Router } from "express";
 import { Note } from "../../models/notesModel";
 import verifyUser from "../../middlewares/verifyUser";
 import { User } from "../../models/userModel";
-import { Mongoose } from "mongoose";
 
 const notesRouter = Router();
 
@@ -55,8 +54,6 @@ notesRouter.delete("/notes/:id", async (req, res, next) => {
       success: true,
       message: "note deleted",
     });
-
-    return res.status(400).send("error");
   } catch (error) {
     console.error(error);
     return res.status(400).send(error);
@@ -106,3 +103,4 @@ notesRouter.post("/notes", async (req, res, next) => {
 });
 
 export default notesRouter;
+
